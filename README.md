@@ -10,16 +10,25 @@ Product
 - [x] Add payload validator
 - [x] Use Go Routines
 - [x] Use Docker
-- [] Autenticação | KeyCloak
-- [] Upload de imagem
-- [] Envio de E-mail
-- [] Cache
-- [] Documentação API | Swagger
-- [] Testes integração
-- [] Internacionalização
-- [] Consul API (Sistema de Gerenciamento de Serviços Distribuídos)
-- [] Git Flow | Conventional Commits?
-
+- [x] Use environment variables
+- [x] Gin Gonic Web Framework
+- [x] Documentação API | Swagger
+- [ ] gRPC (Google Remote Procedure Call)
+- [ ] MongoDb
+- [ ] Autenticação | KeyCloak
+- [ ] Upload de imagem
+- [ ] Envio de E-mail
+- [ ] Cache
+- [ ] Testes integração
+- [ ] Internacionalização
+- [ ] Consul API (Sistema de Gerenciamento de Serviços Distribuídos)
+- [ ] Git Flow | Conventional Commits?
+- [ ] Use RabbitMQ
+- [ ] Encrypt data on save
+- [ ] Use amazon services
+- [ ] Integrate with azure
+- [ ] CI/CD
+- [ ] Hot load
 
 - Segurança:
     - TLS/SSL para criptografar a comunicação entre cliente e servidor
@@ -30,9 +39,6 @@ Product
     - Cache
     - Monitoramento do desempenho da aplicação
 
-- Use RabbitMQ
-- Encrypt data on save
-- Use environment variables
-- Use amazon services
-- Integrate with azure
-- CI/CD
+
+
+➜  food-flow git:(main) ✗ swag init --parseDependency --parseInternal -g cmd/main.go

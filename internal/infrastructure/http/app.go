@@ -1,34 +1,32 @@
-package internal
+package http
 
 import (
-	"net/http"
-
 	"github.com/georgejr3211/food-flow/config"
 	gormconfig "github.com/georgejr3211/food-flow/internal/infrastructure/database/gorm/config"
-	"github.com/georgejr3211/food-flow/internal/module/product"
 	"github.com/georgejr3211/food-flow/internal/utils/logger"
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 // App é a estrutura principal da aplicação
 type App struct {
-	Router *mux.Router
+	router *gin.Engine
 }
 
 // NewApp retorna uma nova instância de App
-func NewApp() *App {
-	return &App{}
+func NewApp(router *gin.Engine) *App {
+	return &App{
+		router: router,
+	}
 }
 
 // Init inicia a aplicação
 func (a *App) Init() {
-	a.Router = mux.NewRouter()
 
 	db := gormconfig.ConnectDB()
 	logger.Info.Println("Connected to database")
 
-	productRoute := product.InitProductModule(db)
-	productRoute.RegisterRoutes(a.Router)
+	router := NewRouter(a.router)
+	router.Init(db)
 
 	// Define os middlewares da aplicação
 	// a.Router.Use(LoggerMiddleware)
@@ -36,8 +34,8 @@ func (a *App) Init() {
 
 // Run executa a aplicação
 func (a *App) Run() {
-	APPPort := config.NewConfig().APPPort
-	APPHost := "0.0.0.0" + ":" + APPPort
-	logger.Info.Printf("Starting server on port %v\n", APPPort)
-	http.ListenAndServe(APPHost, a.Router)
+	config := config.NewConfig()
+	APPPort := config.APPPort
+	APPHost := config.APPHost + ":" + APPPort
+	a.router.Run(APPHost)
 }

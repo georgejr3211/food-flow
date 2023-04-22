@@ -1,0 +1,76 @@
+basePath: /api/v1
+definitions:
+  github_com_georgejr3211_food-flow_internal_module_product_application_add_product.AddProductInput:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      quantity:
+        type: integer
+      status:
+        type: boolean
+    type: object
+  github_com_georgejr3211_food-flow_internal_module_product_application_add_product.AddProductOutput:
+    properties:
+      product:
+        $ref: '#/definitions/github_com_georgejr3211_food-flow_internal_module_product_application_add_product.ProductOutput'
+    type: object
+  github_com_georgejr3211_food-flow_internal_module_product_application_add_product.ProductOutput:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      quantity:
+        type: integer
+      status:
+        type: boolean
+    type: object
+info:
+  contact: {}
+  description: API para o projeto Food Flow
+  title: Food Flow API
+  version: "1"
+paths:
+  /products:
+    post:
+      consumes:
+      - application/json
+      description: Add a new product
+      parameters:
+      - description: Product
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_georgejr3211_food-flow_internal_module_product_application_add_product.AddProductInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_georgejr3211_food-flow_internal_module_product_application_add_product.AddProductOutput'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add a new product
+      tags:
+      - products
+swagger: "2.0"

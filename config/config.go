@@ -7,6 +7,7 @@ import (
 // Config armazena as variáveis de ambiente da aplicação
 type Config struct {
 	APPENV     string
+	APPHost    string
 	APPPort    string
 	DBHost     string
 	DBPort     string
@@ -20,6 +21,7 @@ type Config struct {
 func NewConfig() *Config {
 	return &Config{
 		APPENV:     os.Getenv("ENV"),
+		APPHost:    os.Getenv("HOST"),
 		APPPort:    os.Getenv("PORT"),
 		DBHost:     os.Getenv("DB_HOST"),
 		DBPort:     os.Getenv("DB_PORT"),

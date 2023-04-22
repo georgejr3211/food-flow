@@ -9,14 +9,14 @@ type AddProductInput struct {
 }
 
 type ProductOutput struct {
-	ID          string
-	Name        string
-	Description string
-	Price       float64
-	Quantity    int
-	Status      bool
+	ID          string  `json:"id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price"`
+	Quantity    int     `json:"quantity"`
+	Status      bool    `json:"status"`
 }
 
 type AddProductOutput struct {
-	Product ProductOutput
+	Product ProductOutput `json:"product"`
 }

@@ -1,11 +1,10 @@
 package http
 
 import (
-	"encoding/json"
-	"fmt"
 	"net/http"
 
 	addproduct "github.com/georgejr3211/food-flow/internal/module/product/application/add_product"
+	"github.com/gin-gonic/gin"
 )
 
 type ProductController struct {
@@ -18,21 +17,31 @@ func NewProductController(addProductUseCase *addproduct.AddProductUseCase) *Prod
 	}
 }
 
-func (c *ProductController) HandleAddProduct(w http.ResponseWriter, r *http.Request) {
+// @Summary Add a new product
+// @Description Add a new product
+// @Tags products
+// @Accept  json
+// @Produce  json
+// @Param product body addproduct.AddProductInput true "Product"
+// @Success 201 {object} addproduct.AddProductOutput
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /products [post]
+func (ctrl *ProductController) HandleAddProduct(c *gin.Context) {
+
 	var input addproduct.AddProductInput
-	err := json.NewDecoder(r.Body).Decode(&input)
+	err := c.ShouldBindJSON(&input)
 	if err != nil {
-		http.Error(w, fmt.Sprintf("error: %v", err), http.StatusBadRequest)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	output, appErr := c.addProductUseCase.Execute(&input)
+	output, appErr := ctrl.addProductUseCase.Execute(&input)
 
 	if appErr != nil {
-		http.Error(w, fmt.Sprintf("error: %v", appErr), http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": appErr.Message})
+		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(output)
+	c.JSON(http.StatusCreated, output)
 }
